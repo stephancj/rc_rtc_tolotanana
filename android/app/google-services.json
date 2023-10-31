@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "209593547535",
+    "project_id": "rc-rtc-tolotanana",
+    "storage_bucket": "rc-rtc-tolotanana.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:209593547535:android:76bc8211683e6056c6dc7a",
+        "android_client_info": {
+          "package_name": "com.example.rc_rtc_tolotanana"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAB0UUtb4g4hCBmwmJE825-RDM9d8NPrjg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

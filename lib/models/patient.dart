@@ -1,30 +1,71 @@
 class Patient {
-  final int id;
-  final String lastname;
-  final String firstname;
-  final int age;
-  final Sex sex;
-  final OperationType operationType;
-  final AnesthesiaType anesthesiaType;
-  final String telephone;
-  final String observation;
-  final String comment;
-  final String address;
-  final DateTime birthDate;
+  int? id;
+  String year;
+  String lastname;
+  String? firstname;
+  int age;
+  Sex sex;
+  OperationType operationType;
+  AnesthesiaType anesthesiaType;
+  String telephone;
+  Observation observation;
+  String? comment;
+  String? address;
+  DateTime? birthDate;
 
   Patient(
-      {required this.id,
+      {this.id,
+      required this.year,
       required this.lastname,
-      required this.firstname,
+      this.firstname,
       required this.age,
       required this.sex,
       required this.operationType,
       required this.anesthesiaType,
       required this.telephone,
       required this.observation,
-      required this.comment,
-      required this.address,
-      required this.birthDate});
+      this.comment,
+      this.address,
+      this.birthDate});
+
+  Map<String, dynamic> toMap() {
+    var map = <String, dynamic>{
+      'year': year,
+      'lastname': lastname,
+      'firstname': firstname,
+      'age': age,
+      'sex': sex,
+      'operationType': operationType,
+      'anesthesiaType': anesthesiaType,
+      'telephone': telephone,
+      'observation': observation,
+      'comment': comment,
+      'address': address,
+      'birthDate': birthDate?.toIso8601String(),
+    };
+    if (id != null) {
+      map['id'] = id;
+    }
+    return map;
+  }
+
+  factory Patient.fromMap(Map<String, dynamic> data) {
+    return Patient(
+      id: data['id'],
+      year: data['year'],
+      lastname: data['lastname'],
+      firstname: data['firstname'],
+      age: data['age'],
+      sex: data['sex'],
+      operationType: data['operationType'],
+      anesthesiaType: data['anesthesiaType'],
+      telephone: data['telephone'],
+      observation: data['observation'],
+      comment: data['comment'],
+      address: data['address'],
+      birthDate: DateTime.parse(data['birthDate']),
+    );
+  }
 }
 
 enum Sex { male, female }
@@ -43,3 +84,5 @@ enum OperationType {
 }
 
 enum AnesthesiaType { local, general, other }
+
+enum Observation { able, unable, other }

@@ -1,0 +1,4 @@
+#Tue Oct 31 14:59:16 EAT 2023
+base.0=/Users/mcfmacbookpro2/Stephan/Perso/rc_rtc_tolotanana/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
