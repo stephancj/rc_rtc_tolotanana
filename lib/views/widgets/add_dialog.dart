@@ -16,16 +16,16 @@ class AddDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text("Ajouter une liste"),
+      title: const Text("Ajouter une édition"),
       content: Column(children: [
         TextField(
           controller: yearCtrl,
-          decoration: const InputDecoration(hintText: "Année de l'édition"),
+          decoration: const InputDecoration(hintText: "Année"),
           keyboardType: TextInputType.number,
         ),
         TextField(
           controller: cityCtrl,
-          decoration: const InputDecoration(hintText: "Ville de l'édition"),
+          decoration: const InputDecoration(hintText: "Ville"),
           keyboardType: TextInputType.text,
         ),
       ]),

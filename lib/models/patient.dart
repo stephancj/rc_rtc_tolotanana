@@ -1,6 +1,5 @@
 class Patient {
   int? id;
-  String year;
   String lastname;
   String? firstname;
   int age;
@@ -15,7 +14,6 @@ class Patient {
 
   Patient(
       {this.id,
-      required this.year,
       required this.lastname,
       this.firstname,
       required this.age,
@@ -30,7 +28,6 @@ class Patient {
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
-      'year': year,
       'lastname': lastname,
       'firstname': firstname,
       'age': age,
@@ -52,7 +49,6 @@ class Patient {
   factory Patient.fromMap(Map<String, dynamic> data) {
     return Patient(
       id: data['id'],
-      year: data['year'],
       lastname: data['lastname'],
       firstname: data['firstname'],
       age: data['age'],

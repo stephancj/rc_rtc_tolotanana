@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rc_rtc_tolotanana/views/pages/item_list_view.dart';
+import 'package:rc_rtc_tolotanana/views/pages/patient_list_view.dart';
 import 'package:rc_rtc_tolotanana/views/tiles/list_tile.dart';
 import 'package:rc_rtc_tolotanana/views/widgets/add_dialog.dart';
 
@@ -31,7 +31,7 @@ class _HomeState extends State<Home> {
         buttonTitle: "Ajouter",
         callback: addEdition,
       ),
-      body: ListView.separated(
+      body: ListView.builder(
           itemBuilder: ((context, index) {
             final edition = editions[index];
             return EditionTile(
@@ -39,7 +39,6 @@ class _HomeState extends State<Home> {
                 onPressed: onEditionPressed,
                 onDeleted: onDeleteEdition);
           }),
-          separatorBuilder: ((context, index) => const Divider()),
           itemCount: editions.length),
     );
   }

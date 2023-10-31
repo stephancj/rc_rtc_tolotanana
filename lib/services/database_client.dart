@@ -68,7 +68,7 @@ class DatabaseClient {
     //recuperer le DB
     Database db = await database;
     //faire une query ou demande
-    const query = 'SELECT * FROM edition';
+    const query = 'SELECT * FROM edition ORDER BY year DESC';
     //recuperer les resultats
     List<Map<String, dynamic>> results = await db.rawQuery(query);
     //List<Map<String, dynamic>> results = await db.query("list");
