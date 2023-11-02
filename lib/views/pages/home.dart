@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rc_rtc_tolotanana/views/pages/edition_details_view.dart';
-import 'package:rc_rtc_tolotanana/views/tiles/list_tile.dart';
+import 'package:rc_rtc_tolotanana/views/tiles/edition_tile.dart';
 import 'package:rc_rtc_tolotanana/views/widgets/add_dialog.dart';
 
 import '../../models/edition.dart';

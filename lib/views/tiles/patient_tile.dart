@@ -7,18 +7,13 @@ class PatientTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Text(patient.lastname,
-              style: const TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24)),
-        ],
-      ),
+    return ListTile(
+      leading:
+          patient.sex == 0 ? const Icon(Icons.man) : const Icon(Icons.woman),
+      trailing: const Icon(Icons.arrow_forward_ios),
+      title:
+          Text('${patient.lastname} ${patient.firstname} - ${patient.age} ans'),
+      subtitle: Text(patient.observation.toString()),
     );
   }
 }

@@ -39,6 +39,7 @@ dependencies:
   firebase_database: ^10.3.2
   path_provider: ^2.1.1
   firebase_core: ^2.20.0
+  syncfusion_flutter_charts: ^23.1.43
 
 dev_dependencies:
   flutter_test:
