@@ -7,16 +7,16 @@ import 'package:rc_rtc_tolotanana/views/widgets/custom_appbar.dart';
 
 import '../../services/database_client.dart';
 
-class ItemListView extends StatefulWidget {
+class EditionDetailsView extends StatefulWidget {
   final Edition edition;
 
-  const ItemListView({super.key, required this.edition});
+  const EditionDetailsView({super.key, required this.edition});
 
   @override
-  State<ItemListView> createState() => _ItemListViewState();
+  State<EditionDetailsView> createState() => _EditionDetailsViewState();
 }
 
-class _ItemListViewState extends State<ItemListView> {
+class _EditionDetailsViewState extends State<EditionDetailsView> {
   List<Patient> patients = [];
 
   @override
@@ -29,7 +29,7 @@ class _ItemListViewState extends State<ItemListView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-          titleString: '${widget.edition.city}  ${widget.edition.year}',
+          titleString: '${widget.edition.year} - ${widget.edition.city}',
           buttonTitle: '+',
           callback: addNewItem),
       body: GridView.builder(
@@ -42,7 +42,8 @@ class _ItemListViewState extends State<ItemListView> {
   }
 
   addNewItem() {
-    final next = AddPatientView(listId: widget.edition.id);
+    final next = AddPatientView(editionId: widget.edition.id);
+    print('Edition id: ${widget.edition.id}');
     Navigator.push(context, MaterialPageRoute(builder: (context) => next))
         .then((value) => getPatients());
   }
@@ -52,6 +53,7 @@ class _ItemListViewState extends State<ItemListView> {
       setState(() {
         this.patients = patients;
       });
+      print('Patients: ${patients.length}');
     });
   }
 }

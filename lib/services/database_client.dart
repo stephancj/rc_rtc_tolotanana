@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rc_rtc_tolotanana/models/operation.dart';
 import 'package:rc_rtc_tolotanana/models/patient.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -48,11 +49,10 @@ class DatabaseClient {
           lastName TEXT NOT NULL,
           firstName TEXT NOT NULL,
           age INTEGER NOT NULL,
-          sex TEXT NOT NULL,
-          operationType TEXT NOT NULL,
+          sex INTEGER NOT NULL,
           anesthesiaType TEXT NOT NULL,
           telephone TEXT NOT NULL,
-          observation TEXT NOT NULL,
+          observation INTEGER NOT NULL,
           comment TEXT,
           address TEXT,
           birthDate TEXT NOT NULL,
@@ -60,10 +60,48 @@ class DatabaseClient {
           FOREIGN KEY(edition) REFERENCES edition(id)
         )
       ''');
+    await database.execute('''
+        CREATE TABLE operation (
+          id INTEGER PRIMARY KEY,
+          name TEXT NOT NULL
+        )
+      ''');
+    await database.execute('''
+        CREATE TABLE patient_operation (
+          id INTEGER PRIMARY KEY,
+          patient INTEGER,
+          operation INTEGER,
+          FOREIGN KEY(patient) REFERENCES patient(id),
+          FOREIGN KEY(operation) REFERENCES operation(id)
+        )
+      ''');
+    //insert each operationType in the table operation
+    for (var operation in OperationType.values) {
+      await database.rawInsert(
+          'INSERT INTO operation (name) VALUES (?)', [operation.toString()]);
+    }
+  }
+
+  //list of all operations
+  Future<List<Operation>> allOperations() async {
+    List<Operation> operations = [];
+    //recuperer le DB
+    Database db = await database;
+    //faire une query ou demande
+    const query = 'SELECT * FROM operation';
+    //recuperer les resultats
+    List<Map<String, dynamic>> results = await db.rawQuery(query);
+    //List<Map<String, dynamic>> results = await db.query("list");
+
+    for (var map in results) {
+      operations.add(Operation.fromMap(map));
+    }
+    //ou return results.map((map) => WishList.fromMap(map)).toList();
+    return operations;
   }
 
   //Obtenir données
-  Future<List<Edition>> allLists() async {
+  Future<List<Edition>> allEditions() async {
     List<Edition> lists = [];
     //recuperer le DB
     Database db = await database;
@@ -127,5 +165,42 @@ class DatabaseClient {
     // List<Map<String, dynamic>> results = await db.rawQuery(query, [id]);
 
     return results.map((map) => Patient.fromMap(map)).toList();
+  }
+
+  //get patient id from lastname
+  Future<int> getPatientId(String lastname) async {
+    //recuperer le DB
+    Database db = await database;
+    //faire une query ou demande
+    const query = 'SELECT id FROM patient WHERE lastName = ?';
+    //recuperer les resultats
+    List<Map<String, dynamic>> results = await db.rawQuery(query, [lastname]);
+    //List<Map<String, dynamic>> results = await db.query("list");
+
+    return results[0]['id'];
+  }
+
+  //add patient_operation
+  Future<bool> addPatientOperation(int patientId, int operationId) async {
+    //recuperer le DB
+    Database db = await database;
+    // inserer dans la DB
+    await db.insert(
+        "patient_operation", {"patient": patientId, "operation": operationId});
+    //notifier le changement terminé
+    return true;
+  }
+
+  //get operation id from name
+  Future<int> getOperationId(String name) async {
+    //recuperer le DB
+    Database db = await database;
+    //faire une query ou demande
+    const query = 'SELECT id FROM operation WHERE name = ?';
+    //recuperer les resultats
+    List<Map<String, dynamic>> results = await db.rawQuery(query, [name]);
+    //List<Map<String, dynamic>> results = await db.query("list");
+
+    return results[0]['id'];
   }
 }

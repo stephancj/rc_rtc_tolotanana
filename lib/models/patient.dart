@@ -3,14 +3,14 @@ class Patient {
   String lastname;
   String? firstname;
   int age;
-  Sex sex;
-  OperationType operationType;
-  AnesthesiaType anesthesiaType;
+  int sex;
+  String anesthesiaType;
   String telephone;
-  Observation observation;
+  int observation;
   String? comment;
   String? address;
   DateTime? birthDate;
+  int edition;
 
   Patient(
       {this.id,
@@ -18,13 +18,13 @@ class Patient {
       this.firstname,
       required this.age,
       required this.sex,
-      required this.operationType,
       required this.anesthesiaType,
       required this.telephone,
       required this.observation,
       this.comment,
       this.address,
-      this.birthDate});
+      this.birthDate,
+      required this.edition});
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
@@ -32,13 +32,13 @@ class Patient {
       'firstname': firstname,
       'age': age,
       'sex': sex,
-      'operationType': operationType,
       'anesthesiaType': anesthesiaType,
       'telephone': telephone,
       'observation': observation,
       'comment': comment,
       'address': address,
       'birthDate': birthDate?.toIso8601String(),
+      'edition': edition,
     };
     if (id != null) {
       map['id'] = id;
@@ -49,17 +49,17 @@ class Patient {
   factory Patient.fromMap(Map<String, dynamic> data) {
     return Patient(
       id: data['id'],
-      lastname: data['lastname'],
-      firstname: data['firstname'],
+      lastname: data['lastName'],
+      firstname: data['firstName'],
       age: data['age'],
       sex: data['sex'],
-      operationType: data['operationType'],
       anesthesiaType: data['anesthesiaType'],
       telephone: data['telephone'],
       observation: data['observation'],
       comment: data['comment'],
       address: data['address'],
       birthDate: DateTime.parse(data['birthDate']),
+      edition: data['edition'],
     );
   }
 }
@@ -81,4 +81,4 @@ enum OperationType {
 
 enum AnesthesiaType { local, general, other }
 
-enum Observation { able, unable, other }
+enum Observation { able, unable }

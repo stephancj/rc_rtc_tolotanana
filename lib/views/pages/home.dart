@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rc_rtc_tolotanana/views/pages/patient_list_view.dart';
+import 'package:rc_rtc_tolotanana/views/pages/edition_details_view.dart';
 import 'package:rc_rtc_tolotanana/views/tiles/list_tile.dart';
 import 'package:rc_rtc_tolotanana/views/widgets/add_dialog.dart';
 
@@ -44,7 +44,7 @@ class _HomeState extends State<Home> {
   }
 
   getEditions() async {
-    final fromDb = await DatabaseClient().allLists();
+    final fromDb = await DatabaseClient().allEditions();
     setState(() {
       editions = fromDb;
     });
@@ -79,7 +79,7 @@ class _HomeState extends State<Home> {
   }
 
   onEditionPressed(Edition edition) {
-    final next = ItemListView(edition: edition);
+    final next = EditionDetailsView(edition: edition);
     Navigator.push(context, MaterialPageRoute(builder: (context) => next));
   }
 

@@ -12,10 +12,17 @@ class AddTextfield extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
-      keyboardType: textInputType,
-      decoration: InputDecoration(hintText: hint),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextField(
+        controller: controller,
+        keyboardType: textInputType,
+        decoration: InputDecoration(
+            hintText: hint,
+            border: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8.0))),
+            labelText: hint),
+      ),
     );
   }
 }
