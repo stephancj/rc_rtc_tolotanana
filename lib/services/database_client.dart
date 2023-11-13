@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rc_rtc_tolotanana/models/operation.dart';
 import 'package:rc_rtc_tolotanana/models/patient.dart';
+import 'package:rc_rtc_tolotanana/models/patient_operation.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../models/edition.dart';
@@ -80,6 +82,95 @@ class DatabaseClient {
       await database.rawInsert(
           'INSERT INTO operation (name) VALUES (?)', [operation.toString()]);
     }
+  }
+
+  final DatabaseReference _editionsRef =
+      FirebaseDatabase.instance.ref('editions');
+  final DatabaseReference _patientsRef =
+      FirebaseDatabase.instance.ref('patients');
+  final DatabaseReference _operationsRef =
+      FirebaseDatabase.instance.ref('operations');
+  final DatabaseReference _patientOperationsRef =
+      FirebaseDatabase.instance.ref('patient_operations');
+
+  // Synchroniser les éditions avec Firebase
+  Future<void> syncEditionsWithFirebase(List<Edition> editions) async {
+    for (Edition edition in editions) {
+      await _editionsRef.child(edition.id.toString()).set(edition.toMap());
+    }
+  }
+
+  // Synchroniser les patients avec Firebase
+  Future<void> syncPatientsWithFirebase(List<Patient> patients) async {
+    for (Patient patient in patients) {
+      await _patientsRef.child(patient.id.toString()).set(patient.toMap());
+    }
+  }
+
+  // Synchroniser les opérations avec Firebase
+  Future<void> syncOperationsWithFirebase(List<Operation> operations) async {
+    for (Operation operation in operations) {
+      await _operationsRef
+          .child(operation.id.toString())
+          .set(operation.toMap());
+    }
+  }
+
+  // Synchroniser les relations patient-opération avec Firebase
+  Future<void> syncPatientOperationsWithFirebase(
+      List<PatientOperation> patientOperations) async {
+    for (PatientOperation patientOperation in patientOperations) {
+      await _patientOperationsRef
+          .child(patientOperation.id.toString())
+          .set(patientOperation.toMap());
+    }
+  }
+
+  Future<void> syncAllDataWithFirebase() async {
+    List<Edition> editions = await allEditions();
+    List<Patient> patients = await allPatients();
+    List<Operation> operations = await allOperations();
+    List<PatientOperation> patientOperations = await getAllPatientOperations();
+
+    await syncEditionsWithFirebase(editions);
+    await syncPatientsWithFirebase(patients);
+    await syncOperationsWithFirebase(operations);
+    await syncPatientOperationsWithFirebase(patientOperations);
+  }
+
+  //list of all patients
+  Future<List<Patient>> allPatients() async {
+    List<Patient> patients = [];
+    //recuperer le DB
+    Database db = await database;
+    //faire une query ou demande
+    const query = 'SELECT * FROM patient';
+    //recuperer les resultats
+    List<Map<String, dynamic>> results = await db.rawQuery(query);
+    //List<Map<String, dynamic>> results = await db.query("list");
+
+    for (var map in results) {
+      patients.add(Patient.fromMap(map));
+    }
+    //ou return results.map((map) => WishList.fromMap(map)).toList();
+    return patients;
+  }
+
+  //list of all PatientOperations
+  Future<List<PatientOperation>> getAllPatientOperations() async {
+    List<PatientOperation> patientOperations = [];
+    //recuperer le DB
+    Database db = await database;
+    //faire une query ou demande
+    const query = 'SELECT * FROM patient_operation';
+    //recuperer les resultats
+    List<Map<String, dynamic>> results = await db.rawQuery(query);
+
+    for (var map in results) {
+      patientOperations.add(PatientOperation.fromJson(map));
+    }
+
+    return patientOperations;
   }
 
   //list of all operations
@@ -227,7 +318,7 @@ class DatabaseClient {
     List<Map<String, dynamic>> results = await db.rawQuery(query);
     //List<Map<String, dynamic>> results = await db.query("list");
 
-    return results[0]['MIN(age)'];
+    return results[0]['MIN(age)'] ?? 0;
   }
 
   //get the maximum patient age
@@ -240,7 +331,7 @@ class DatabaseClient {
     List<Map<String, dynamic>> results = await db.rawQuery(query);
     //List<Map<String, dynamic>> results = await db.query("list");
 
-    return results[0]['MAX(age)'];
+    return results[0]['MAX(age)'] ?? 0;
   }
 
   //get the average patient age
@@ -253,7 +344,7 @@ class DatabaseClient {
     List<Map<String, dynamic>> results = await db.rawQuery(query);
     //List<Map<String, dynamic>> results = await db.query("list");
 
-    return results[0]['AVG(age)'].toInt();
+    return results[0]['AVG(age)']?.toInt() ?? 0;
   }
 
   //get number of patient per operationType

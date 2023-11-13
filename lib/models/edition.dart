@@ -10,4 +10,14 @@ class Edition {
       : id = map['id'],
         year = map['year'],
         city = map['city'];
+
+  //convertir list en toMap
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'year': year,
+      'city': city,
+    };
+  }
 }

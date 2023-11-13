@@ -23,9 +23,15 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -49,6 +55,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '209593547535',
     projectId: 'rc-rtc-tolotanana',
     authDomain: 'rc-rtc-tolotanana.firebaseapp.com',
+    databaseURL: 'https://rc-rtc-tolotanana-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'rc-rtc-tolotanana.appspot.com',
     measurementId: 'G-66X26V6JHZ',
   );
@@ -58,24 +65,7 @@ class DefaultFirebaseOptions {
     appId: '1:209593547535:android:76bc8211683e6056c6dc7a',
     messagingSenderId: '209593547535',
     projectId: 'rc-rtc-tolotanana',
+    databaseURL: 'https://rc-rtc-tolotanana-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'rc-rtc-tolotanana.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCAVVvXkE3b4jMAYqzLaJOuIGfO6cyuLXY',
-    appId: '1:209593547535:ios:7316d62ad5181e76c6dc7a',
-    messagingSenderId: '209593547535',
-    projectId: 'rc-rtc-tolotanana',
-    storageBucket: 'rc-rtc-tolotanana.appspot.com',
-    iosBundleId: 'com.example.rcRtcTolotanana',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCAVVvXkE3b4jMAYqzLaJOuIGfO6cyuLXY',
-    appId: '1:209593547535:ios:c8c981003091183dc6dc7a',
-    messagingSenderId: '209593547535',
-    projectId: 'rc-rtc-tolotanana',
-    storageBucket: 'rc-rtc-tolotanana.appspot.com',
-    iosBundleId: 'com.example.rcRtcTolotanana.RunnerTests',
   );
 }
