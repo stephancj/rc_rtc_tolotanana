@@ -203,4 +203,92 @@ class DatabaseClient {
 
     return results[0]['id'];
   }
+
+  //get number of patients
+  Future<int> getNumberOfPatients() async {
+    //recuperer le DB
+    Database db = await database;
+    //faire une query ou demande
+    const query = 'SELECT COUNT(*) FROM patient';
+    //recuperer les resultats
+    List<Map<String, dynamic>> results = await db.rawQuery(query);
+    //List<Map<String, dynamic>> results = await db.query("list");
+
+    return results[0]['COUNT(*)'];
+  }
+
+  //get the minimum patient age
+  Future<int> getMinAge() async {
+    //recuperer le DB
+    Database db = await database;
+    //faire une query ou demande
+    const query = 'SELECT MIN(age) FROM patient';
+    //recuperer les resultats
+    List<Map<String, dynamic>> results = await db.rawQuery(query);
+    //List<Map<String, dynamic>> results = await db.query("list");
+
+    return results[0]['MIN(age)'];
+  }
+
+  //get the maximum patient age
+  Future<int> getMaxAge() async {
+    //recuperer le DB
+    Database db = await database;
+    //faire une query ou demande
+    const query = 'SELECT MAX(age) FROM patient';
+    //recuperer les resultats
+    List<Map<String, dynamic>> results = await db.rawQuery(query);
+    //List<Map<String, dynamic>> results = await db.query("list");
+
+    return results[0]['MAX(age)'];
+  }
+
+  //get the average patient age
+  Future<int> getAverageAge() async {
+    //recuperer le DB
+    Database db = await database;
+    //faire une query ou demande
+    const query = 'SELECT AVG(age) FROM patient';
+    //recuperer les resultats
+    List<Map<String, dynamic>> results = await db.rawQuery(query);
+    //List<Map<String, dynamic>> results = await db.query("list");
+
+    return results[0]['AVG(age)'].toInt();
+  }
+
+  //get number of patient per operationType
+  Future<List<Map<String, dynamic>>> getPatientPerOperationType() async {
+    //recuperer le DB
+    Database db = await database;
+    //faire une query ou demande
+    const query =
+        'SELECT operation.name, COUNT(*) FROM patient_operation INNER JOIN operation ON patient_operation.operation = operation.id GROUP BY operation.name';
+    //recuperer les resultats
+    List<Map<String, dynamic>> results = await db.rawQuery(query);
+    //List<Map<String, dynamic>> results = await db.query("list");
+
+    return results;
+  }
+
+  //get number of patient per observation
+  Future<List<Map<String, dynamic>>> getPatientPerObservation() async {
+    //recuperer le DB
+    Database db = await database;
+    //faire une query ou demande
+    const query =
+        'SELECT observation, COUNT(*) FROM patient GROUP BY observation';
+    //recuperer les resultats
+    List<Map<String, dynamic>> results = await db.rawQuery(query);
+    //List<Map<String, dynamic>> results = await db.query("list");
+
+    return results;
+  }
+
+  //get number of patient per sex
+  Future<List<Map<String, dynamic>>> getPatientPerSex() async {
+    Database db = await database;
+    const query = "SELECT sex, COUNT(*) FROM patient GROUP BY sex";
+    List<Map<String, dynamic>> results = await db.rawQuery(query);
+    return results;
+  }
 }
